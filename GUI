@@ -1,1 +1,69 @@
+# GUI for fake news detection project 
 
+import tkinter as tk
+from tkinter import Label, Text, Button, messagebox
+from PIL import Image, ImageTk
+from sklearn.metrics.pairwise import cosine_similarity
+from MAIN import tfidf_vectorizer, tfidf_X, rf_classifier
+
+# Create a function to classify news as FAKE or REAL
+def classify_news():
+    news_title = entry.get("1.0", "end-1c")  # Get the text from the Text widget
+    if not news_title or news_title.strip() == "Enter news title here.":
+        messagebox.showerror("Invalid input", "PLEASE ENTER NEWS TITLE.")
+        return
+
+    # Check if the input is similar to the training data
+    tfidf_title = tfidf_vectorizer.transform([news_title])
+    similarity = cosine_similarity(tfidf_title, tfidf_X)
+    if similarity.max() < 0.2:  # You can adjust the threshold as needed
+        messagebox.showinfo("Invalid input", "INVAILD INPUT")
+    else:
+        prediction = rf_classifier.predict(tfidf_title)
+        messagebox.showinfo("Classification", f"Classification: {prediction[0]}")
+        
+# Create the GUI window
+window = tk.Tk()
+window.title("FAKE NEWS DETECTION")
+
+# Set the background image
+bg_image = Image.open(r"C:\Users\Aditya\Downloads\76811wp7461543-fake-news-wallpapers.jpg")
+# for the above you can select path of your image
+bg_image = ImageTk.PhotoImage(bg_image)
+background_label = Label(window, image=bg_image)
+background_label.place(relwidth=1, relheight=1)
+
+# Add a black line at the top of the screen
+line_canvas = tk.Canvas(window, height=70, bg='grey11', highlightthickness=0)
+line_canvas.pack(fill=tk.X)
+
+# Change font to Algerian
+font_garamond = ("garamond", 14,)
+
+# Create a label box at the top of the screen
+label_box = Label(window, text="A Fake News Detection GUI using Machine Learning algorithms and tkinter python library", font=("Sitka Heading", 20, "bold"), fg="red", bg= "grey12")
+label_box.place(relx=0.5, rely=0.02, anchor=tk.N)
+
+# Create GUI components with the Algerian font
+label = Label(window, text="CHECK IF IT'S FAKE OR NOT:", font=("algerian", 22, "bold"), fg="black")
+label.pack(pady=10)
+
+# Create the Text widget with a placeholder
+entry = tk.Text(window, width=50, height=2, font=font_garamond)
+entry.insert("1.0", "Enter news title here.")
+entry.pack(pady=10)
+
+# Function to remove placeholder text when clicked
+def on_entry_click(event):
+    if entry.get("1.0", "end-1c") == "Enter news title here.":
+        entry.delete("1.0", "end-1c")
+        entry.configure(fg='black')  # Change text color to black
+
+# Bind the click event to the function
+entry.bind("<FocusIn>", on_entry_click)
+
+classify_button = Button(window, text="Classify", command=classify_news, font=("Copperplate Gothic Bold", 16, "bold"))
+classify_button.pack(pady=10)
+
+# Start the GUI main loop
+window.mainloop()
