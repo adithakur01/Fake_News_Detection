@@ -10,7 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score, recall_score, confusion_matrix, accuracy_score
 
 # Load the dataset
-data = pd.read_csv(r"E:\PROYGAM_2024\cleaned_dataset.csv")
+data = pd.read_csv(r"E:\PROYGAM_2024\cleaned_dataset.csv") # change path with your dataset path 
 
 # Split the data into training and testing sets
 X = data['title']
