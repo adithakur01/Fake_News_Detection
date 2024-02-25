@@ -16,3 +16,5 @@ Welcome to the Fake News Detection project! This project aims to detect fake new
  GUI allows users to input text and receive a prediction regarding the authenticity of the news.
 
 
+![Screenshot 2024-02-22 105157](https://github.com/adithakur01/Fake_News_Detection/assets/143691772/a286f55d-7fd1-496c-b90c-14e9aac2cb53)
+![Screenshot 2024-02-01 184550](https://github.com/adithakur01/Fake_News_Detection/assets/143691772/94df2580-339b-47d5-b41c-95463a6a5ab9)
